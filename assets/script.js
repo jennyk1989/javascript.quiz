@@ -16,41 +16,89 @@ function homePage() {
 
 
 //================ Quiz Event ================
-//timer countdown starts
+//relevant variables defined
+const questionTitle = $("#quiz-questions");
+const btnOne = $("#button-one");
+const btnTwo = $("#button-two");
+const btnThree = $("#button-three");
+const btnFour = $("#button-four");
+const questChoices = $("question-choices");
+let timerInterval = 0;
+let totalTime = 30;
+let i = 0;
+
 function quizEvent() {
     $(quizBox).show();
     $(quizRules).hide();
+    $(questionTitle).empty();
+    
+    //timer
+    timerInterval = setInterval(function() {
+        totalTime--;
+        $("#countdown-timer").text(totalTime + "sec");
+        showQuestion();
 
+        if(totalTime === 0) {
+            showScores();
+        }
+    }, 1000);
 };
+
+function showQuestion() {
+    $(questionTitle).text("");
+    $(btnOne).text("");
+    $(btnTwo).text("");
+    $(btnThree).text("");
+    $(btnFour).text("");
+
+    $(questionTitle).text(JSON.stringify(questionsArray[i].quest));
+    //append answer choice to the coorisponding buttons
+    $(btnOne).append(JSON.stringify(questionsArray[i].choice[0])); //appends answer choices to buttons from an object as a string
+    $(btnTwo).append(JSON.stringify(questionsArray[i].choice[1])); 
+    $(btnThree).append(JSON.stringify(questionsArray[i].choice[2])); 
+    $(btnFour).append(JSON.stringify(questionsArray[i].choice[3])); 
+};
+//click answer event listener
+$(".button").on("click", function() {
+    if (i > 4) {
+        clearInterval(timerInterval);
+        showScores();
+    } else {
+        showQuestion();
+        
+        i++; 
+    };
+});
+
 //quiz box shows & quiz rules & score box still hidden
 
 //questions
 //object/array format so easier to access 
 const questionsArray = [
     {
-        q: "What is not an example of a logical operator?",
-        c: ["||", "&&", "!", "@@"],
-        a: "@@"
+        quest: "What is not an example of a logical operator?",
+        choice: ["||", "&&", "!", "***"],
+        ans: "***"
     },
     {
-        q: "What is an array's values encompassed in?",
-        c: [".value.", "<value>", "$value$", "[value]"],
-        a: "[value]"
+        quest: "What is an array's values encompassed in?",
+        choice: [".value.", "<value>", "$value$", "[value]"],
+        ans: "[value]"
     },
     {
-        q: "What language is used to dynamically style and insert elements?",
-        c: ["JavaScript", "Java", "HTML", "Fetch API"],
-        a: "JavaScript"
+        quest: "What language is used to dynamically style and insert elements?",
+        choice: ["JavaScript", "Java", "HTML", "Fetch API"],
+        ans: "JavaScript"
     },
     {
-        q: "What is used to denote an element in JavaScript?",
-        c: ["camelCasing", "tallManLettering", "ScriptCASING", "javaCasing"],
-        a: "camelCasing"
+        quest: "What is used to denote an element in JavaScript?",
+        choice: ["camelCasing", "tallManLettering", "ScriptCASING", "javaCasing"],
+        ans: "camelCasing"
     },
     {
-        q: "What is the name of a common JavaScript library used to simplify JavaScript programming?",
-        c: ["Bootstrap", "jQuery", "Facebook", "CSS"],
-        a: "jQuery"
+        quest: "What is the name of a common JavaScript library used to simplify JavaScript programming?",
+        choice: ["Bootstrap", "jQuery", "Facebook", "CSS"],
+        ans: "jQuery"
     }
 ];
 
@@ -59,7 +107,10 @@ const questionsArray = [
 
 //================ Store Scores ================
 //================ Display High Scores ================
-
+function showScores() {
+    $(quizBox).hide();
+    $(scoreBox).show();
+};
 
 //================ Event Listeners ================
 homePage();
