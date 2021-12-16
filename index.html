@@ -27,7 +27,7 @@
     <div class="container">
         
         <!-- Quiz Rules container-->
-        <div class="section">
+        <div id="quiz-rules" class="section">
             <!-- quiz title -->
             <div class="title m-3 has-text-info has-text-centered"> JavaScript Quiz Challenge</div>
             <!-- quiz rules shown here -->
@@ -37,7 +37,7 @@
             </div>
             <div class="m-3 has-text-centered" id="start-button-div"> 
                 <!-- start buttton -->
-                <button class="button is-info"> Start Quiz </button>
+                <button id="start-quiz" class="button is-info"> Start Quiz </button>
             </div>
             
         </div>
@@ -93,6 +93,23 @@
                         <button class="button is-info ">Submit</button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!--High Scores container-->
+        <div class="section is-centered" id="high-scores-box">
+            <div class="title has-text-centered has-text-info">
+                High Scores: 
+            </div>
+            <!-- high score list -->
+            <ul class="has-text-centered has-text-info has-background-info-light m-6">
+                <!-- player names insert here -->
+                <li>placeholder</li>
+            </ul>
+            <!-- clear high scores & go back buttons -->
+            <div class="is-grouped has-text-centered">
+                <button class="button is-info" id="go-back">Go back</button>
+                <button class="button is-info" id="clear-scores">Clear scores</button>
             </div>
         </div>
     </div>
