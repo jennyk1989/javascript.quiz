@@ -42,24 +42,62 @@
             
         </div>
         
+        <!-- Quiz Container (appears once quiz is started) -->
+        <div class= "section is-centered" id="quiz-box">
+            <!-- questions -->
+            <div class= "title has-text-link m-3 has-text-centered" id="quiz-questions">
+                <!-- questions dynamically appear here -->
+                (Placeholder for Questions)
+            </div>
+            <!-- answser choices -->
+            <div class= "has-text-left pl-6 ml-6" id="question-choices">
+                <!-- answer choices dynamically appear here -->
+                <!-- answer choice 1 -->
+                <div>
+                    <button class="button is-link m-1" id="button-one" type="button">1. </button>
+                </div>
+                <!-- answer choice 2 -->
+                <div>
+                    <button class="button is-link m-1" id="button-two" type="button">2. </button>
+                </div>
+                <!-- answer choice 3 -->
+                <div>
+                    <button class="button is-link m-1" id="button-three" type="button">3. </button>
+                </div>
+                <!-- answer choice 4 -->
+                <div>
+                    <button class="button is-link m-1" id="button-one" type="button">4. </button>
+                </div>
+            </div>
+    
+        </div>
+        
+        <!-- End of quiz container -->
+        <div class="section is-centered" id="score-box">
+            <!-- title staying quiz is over -->
+            <div class="title has-text-centered has-text-info">
+                Quiz is over!
+            </div>
+            <!-- list final score here -->
+            <div class="has-text-centered m-6 is-size-3 is-underlined" id="final-score">
+                Your final score is (##)
+            </div>
+            <!-- form for user to enter initials + submit button -->
+            <div>
+                <label class="label mr-3 mt-1 has-text-centered has-text-info">Add Highscore: </label>
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <input class="input is-info is-focused" type="text" placeholder= "Input name">
+                    </div>
+                    <div class="control">
+                        <button class="button is-info ">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <!-- Quiz Container (appears once quiz is started) -->
-    <div id="quiz-box">
-        <div id="quiz-questions">
-            <!-- questions dynamically appear here -->
-        </div>
-        <div>
-            <!-- answer choice buttons -->
 
-        </div>
-
-    </div>
-
-    <!-- End of quiz container -->
-    <div>
-
-    </div>
     
     
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
