@@ -5,35 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaScript Quiz</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <!-- nav bar for high score & countdown timer -->
-    <nav>
-        <div>
+    <nav class="navbar is-spaced">
+        
             <!-- button to view high scores -->
-            <button id="highscoreBtn" type="button"> View High Scores </button>
-        </div>
-        <!-- Countdown timer -->
-        <div id="countdown timer">Time: </div>
+            <div class="navbar-start">
+                <button class ="button is-info" id="highscore-button" type="button"> View High Scores </button>
+            </div>
+
+            <!-- Countdown timer -->
+            <div class="navbar-end">
+                <ul class = "button is-info is-light" id="countdown-timer">Timer </ul>
+            </div>
     </nav>
 
-    <div>
-        <div id="quizRules">
-          <!-- intro prior to start of quiz -->
-          Answer the following questions on JavaScript within the time limit. Incorrect answers will penalize your score and time. Try to beat the high score!
+    <!-- big container for content other than the nav bar -->
+    <div class="container">
+        
+        <!-- Quiz Rules container-->
+        <div class="section">
+            <!-- quiz title -->
+            <div class="title m-3 has-text-info has-text-centered"> JavaScript Quiz Challenge</div>
+            <!-- quiz rules shown here -->
+            <div class="ml-6 mr-6 mt-3 mb-5 pl-6 pr-6 has-text-centered" id="quiz-rules">
+              <!-- intro prior to start of quiz -->
+              Answer the following questions on JavaScript within the time limit. Incorrect answers will penalize your score and time. Try to beat the high score!
+            </div>
+            <div class="m-3 has-text-centered" id="start-button-div"> 
+                <!-- start buttton -->
+                <button class="button is-info"> Start Quiz </button>
+            </div>
+            
         </div>
-        <div>
-            <!-- start buttton -->
-            <button> Start Quiz </button>
-        </div>
-
+        
     </div>
-
+    
     <!-- Quiz Container (appears once quiz is started) -->
-    <div id="quizBox">
-        <div id="quizQuestions">
+    <div id="quiz-box">
+        <div id="quiz-questions">
             <!-- questions dynamically appear here -->
         </div>
         <div>
@@ -45,11 +58,11 @@
 
     <!-- End of quiz container -->
     <div>
-        
+
     </div>
     
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="assets/script.js"></script>
     <script src="assets/style.css"></script>
 </body>
