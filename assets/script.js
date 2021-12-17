@@ -59,13 +59,12 @@ function showQuestion() {
     $(btnFour).append(JSON.stringify(questionsArray[i].choice[3])); 
 };
 //click answer event listener
-$(".button").on("click", function() {
+$(".answer-button").on("click", function() {
     if (i > 4) {
         clearInterval(timerInterval);
         showScores();
     } else {
         showQuestion();
-        
         i++; 
     };
 });
@@ -104,13 +103,13 @@ const questionsArray = [
 
 //================ End of Quiz ================
 //quiz box hideen & score box appears
-
-//================ Store Scores ================
-//================ Display High Scores ================
 function showScores() {
     $(quizBox).hide();
     $(scoreBox).show();
 };
+
+//================ Store Scores ================
+//================ Display High Scores ================
 
 //================ Event Listeners ================
 homePage();
