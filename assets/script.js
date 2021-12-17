@@ -143,39 +143,34 @@ function showScores() {
 const submitScore = $("#submit-score");
 const highScoresList = $("#high-scores-list");
 let userName = $("#user-input")
+let userScore = [];
 
 //submit button event listener
-$("#submit-score").on("click", function() {
-    
+$("#submit-score").on("click", function(event) {
+    event.preventDefault();
     
     storeScores();
+    storeNames();
 });
 
-function storeScores() {
-    
+function storeScores(event) {
+    userScore = {
+        name: $(userName).value,
+        score: totalTime
+    }
+};
 
+function storeNames() { 
     $(scoreBox).hide();
     $(highScores).show();
-    let userHighScores = localStorage.getItem("storedUserScores");
-    let arrayScored;
-    if (userHighScores === null) {
-            arrayScored = [];
-        } else {
-                arrayScored = JSON.parse(userHighScores);
-            }
-    let userScore = {
-        name: userName.val,
-        score: totalTime.text
-    }
-    console.log(userScore);
-    arrayScored.push(userScore);
-    localStorage.setItem("storedUserScores", JSON.stringify(arrayScored));
+    
+    localStorage.setItem("storedUserScores", JSON.stringify(userScore));
     
     //arrayScored.push(userScore);//pushes new score into stored array of users/scores
-    displayScores();
-
-};
     
+   
+};
+displayScores();
 
     
 
@@ -188,23 +183,22 @@ let clearScores = $("#clear-scores"); //button for clear the list of high scores
 function displayScores() {
     //take out of local storage
     let storedScore = JSON.parse(localStorage.getItem("storedUserScores"));
-    console.log(storedScore);
-    for (let i = 0; i < storedScore.length; i++) {
-        let displayedHighScore = $("p");
-        displayedHighScore.html = storedScore[i].name + "-" + storedScore[i].score;
-        $("#high-scores-list").append(displayedHighScore);
+    
 
+    for (let i = 0; i < 4; i++) {
+
+        let scoresList = $("<p>")
+        scoresList.innerHTML = "User: " + storedScore[i] + "Score: " + storedScore[i];
+        console.log(scoresList);
+        $("#high-scores-list").append(scoresList);
+    
     }
 
 }
 
 //================ Event Listeners ================
-homePage();
+$("#go-back").on("click", homePage);
+
 //click start button --> quiz event happens
 $(startQuiz).on("click", quizEvent);
-
-
-
-//submit score button
-
-//go back & clear high scores buttons
+homePage();
