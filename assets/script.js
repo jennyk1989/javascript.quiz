@@ -28,6 +28,7 @@ let totalTime = 30;
 let i = 0;
 
 function quizEvent() {
+    //quiz box shows & quiz rules & score box still hidden
     $(quizBox).show();
     $(quizRules).hide();
     $(questionTitle).empty();
@@ -58,18 +59,8 @@ function showQuestion() {
     $(btnThree).append(JSON.stringify(questionsArray[i].choice[2])); 
     $(btnFour).append(JSON.stringify(questionsArray[i].choice[3])); 
 };
-//click answer event listener
-$(".answer-button").on("click", function() {
-    if (i > 4) {
-        clearInterval(timerInterval);
-        showScores();
-    } else {
-        showQuestion();
-        i++; 
-    };
-});
 
-//quiz box shows & quiz rules & score box still hidden
+
 
 //questions
 //object/array format so easier to access 
@@ -98,25 +89,83 @@ const questionsArray = [
         quest: "What is the name of a common JavaScript library used to simplify JavaScript programming?",
         choice: ["Bootstrap", "jQuery", "Facebook", "CSS"],
         ans: "jQuery"
+    },
+    {
+        quest: "What does JS stand for?",
+        choice: ["JavaScreen", "JavaStyle", "JavaShow", "JavaScript"],
+        ans: "JavaScript"
     }
 ];
 
+//click answer event listener
+$(".answer-button").on("click", function() {
+    if (i > 4) {
+        clearInterval(timerInterval);
+        showScores();
+    } else {
+        showQuestion();
+        i++; 
+    };
+});
+
+function calculateScore (ans) {
+    if (ans = questionsArray[i].choice) {
+        //add to score/time
+        totalTime += 5;
+    } else {
+        //reduce score/time
+        totalTime -= 5; 
+    }
+
+    
+
+}
+//check if user answer choice is correct
 //================ End of Quiz ================
-//quiz box hideen & score box appears
+//relevant variables
+const finalScore = $("#final-score");
+
+//quiz box hiden & score box appears
 function showScores() {
     $(quizBox).hide();
     $(scoreBox).show();
+
+    $(finalScore).empty();
+    $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
 };
 
+
 //================ Store Scores ================
+const submitScore = $("#submit-score");
+
+//submit button event listener
+$(submitScore).on("click", ".input", saveUserInput());
+
+function saveUserInput() {
+    let userInput = $(".input").val;
+    showHighScores(userInput);
+    
+}
+
 //================ Display High Scores ================
+//relevant variables
+let goBack = $("#go-back"); //button for going back to home page
+let clearScores = $("#clear-scores"); //button for clear the list of high scores
+
+function showHighScores(userInput, totalTime) {
+    $(scoreBox).hide();
+    $(highScores).show();
+    $("#ul").append("<li>" + userInput + "-" + totalTime + "</li>");
+
+}
+
 
 //================ Event Listeners ================
 homePage();
 //click start button --> quiz event happens
-$(startQuiz).on("click", quizEvent)
+$(startQuiz).on("click", quizEvent);
 
-//select answer buttons
+
 
 //submit score button
 
