@@ -111,7 +111,7 @@ $(".answer-button").on("click", function() {
     };
    
 });
-
+//check if user answer choice is correct
 function checkAnswer(answer) {
     if (questionsArray[i].ans === answer) {
         //add to score/time
@@ -121,10 +121,8 @@ function checkAnswer(answer) {
         totalTime -= 5; 
     }
 
-    
-
 }
-//check if user answer choice is correct
+
 //================ End of Quiz ================
 //relevant variables
 const finalScore = $("#final-score");
@@ -138,14 +136,8 @@ function showScores() {
     $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
 
     //once user click's submit, store the user's name & score
-    
-
-     //send user data to storeData function
     $("#submit-score").on("click", function() {
-       
-        
         //take user's name from input
-        
         let userData = {
             name: $("#userInput")[0].value,
             score: totalTime
@@ -163,21 +155,6 @@ function showScores() {
 const submitScore = $("#submit-score");
 const highScoresList = $("#high-scores-list");
 
-// function storeData(userData) { 
-//     $(scoreBox).hide();
-//     $(highScores).show();
-    
-//     localStorage.setItem("storedUserScores", JSON.stringify(userData));
-    
-//     //arrayScored.push(userScore);//pushes new score into stored array of users/scores
-    
-   
-// };
-// displayScores();
-
-    
-
-
 //================ Display High Scores ================
 //relevant variables
 let goBack = $("#go-back"); //button for going back to home page
@@ -188,20 +165,8 @@ function displayScores() {
     $(highScores).show();
     //take out of local storage (parse is necessary bc it's in object form)
     let displayedScore =  JSON.parse(localStorage.getItem("storedScores"));
-    console.log(displayedScore);
-    
 
     $("#high-scores-list").append("<p>" + JSON.stringify(displayedScore) + "</p>");
-    console.log(displayedScore);
-
-    // for (let i = 0; i < 4; i++) {
-
-    //     let scoresList = $("<p>")
-    //     scoresList.innerHTML = "User: " + storedScore[i] + "Score: " + storedScore[i];
-    //     console.log(scoresList);
-    //     $("#high-scores-list").append(scoresList);
-    
-    // }
 
 }
 
