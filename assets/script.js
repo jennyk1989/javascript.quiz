@@ -71,32 +71,32 @@ const questionsArray = [
     {
         quest: "What is not an example of a logical operator?",
         choice: ["||", "&&", "!", "***"],
-        ans: "***"
+        ans: "4"
     },
     {
         quest: "What is an array's values encompassed in?",
         choice: [".value.", "<value>", "$value$", "[value]"],
-        ans: "[value]"
+        ans: "4"
     },
     {
         quest: "What language is used to dynamically style and insert elements?",
         choice: ["JavaScript", "Java", "HTML", "Fetch API"],
-        ans: "JavaScript"
+        ans: "1"
     },
     {
         quest: "What is used to denote an element in JavaScript?",
         choice: ["camelCasing", "tallManLettering", "ScriptCASING", "javaCasing"],
-        ans: "camelCasing"
+        ans: "1"
     },
     {
         quest: "What is the name of a common JavaScript library used to simplify JavaScript programming?",
         choice: ["Bootstrap", "jQuery", "Facebook", "CSS"],
-        ans: "jQuery"
+        ans: "2"
     },
     {
         quest: "What does JS stand for?",
         choice: ["JavaScreen", "JavaStyle", "JavaShow", "JavaScript"],
-        ans: "JavaScript"
+        ans: "4"
     }
 ];
 
@@ -112,11 +112,11 @@ $(".answer-button").on("click", function() {
    
 });
 
-function answerClick(answer) {
+function checkAnswer(answer) {
     if (questionsArray[i].ans === answer) {
         //add to score/time
-        totalTime += 7;
-    } else {
+        totalTime += 10;
+    } else if (questionsArray[i].ans !== answer) {
         //reduce score/time
         totalTime -= 5; 
     }
