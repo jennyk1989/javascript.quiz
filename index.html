@@ -54,19 +54,19 @@
                 <!-- answer choices dynamically appear here -->
                 <!-- answer choice 1 -->
                 <div>
-                    <button class="button is-link m-1 answer-button" id="button-one" type="button">1. </button>
+                    <button onclick="answerClick('1')" class="button is-link m-1 answer-button" id="button-one" type="button">1. </button>
                 </div>
                 <!-- answer choice 2 -->
                 <div>
-                    <button class="button is-link m-1 answer-button" id="button-two" type="button">2. </button>
+                    <button onclick="answerClick('2')" class="button is-link m-1 answer-button" id="button-two" type="button">2. </button>
                 </div>
                 <!-- answer choice 3 -->
                 <div>
-                    <button class="button is-link m-1 answer-button" id="button-three" type="button">3. </button>
+                    <button onclick="answerClick('3')" class="button is-link m-1 answer-button" id="button-three" type="button">3. </button>
                 </div>
                 <!-- answer choice 4 -->
                 <div>
-                    <button class="button is-link m-1 answer-button" id="button-four" type="button">4. </button>
+                    <button onclick="answerClick('4')" class="button is-link m-1 answer-button" id="button-four" type="button">4. </button>
                 </div>
             </div>
     
@@ -87,10 +87,10 @@
                 <label class="label mr-3 mt-1 has-text-centered has-text-info">Add Highscore: </label>
                 <div class="field has-addons has-addons-centered">
                     <div class="control">
-                        <input class="input is-info is-focused" type="text" placeholder= "Input name">
+                        <input id="user-input" class="input is-info is-focused" type="text" placeholder= "Input name">
                     </div>
                     <div class="control">
-                        <button class="button is-info" id="sumbit-score">Submit</button>
+                        <button class="button is-info submit-score" id="submit-score">Submit</button>
                     </div>
                 </div>
             </div>
@@ -102,10 +102,10 @@
                 High Scores: 
             </div>
             <!-- high score list -->
-            <ul class="has-text-centered has-text-info has-background-info-light m-6">
+            <div class="has-text-centered has-text-info has-background-info-light m-6 high-scores-list" id="high-scores-list">
                 <!-- player names insert here -->
-                <li>placeholder</li>
-            </ul>
+                
+            </div>
             <!-- clear high scores & go back buttons -->
             <div class="is-grouped has-text-centered">
                 <button class="button is-info" id="go-back">Go back</button>
