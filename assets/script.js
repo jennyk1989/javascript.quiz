@@ -137,7 +137,6 @@ function showScores() {
     $(finalScore).empty();
     $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
 
-    let userInput = $("#userInput").value;
     //once user click's submit, store the user's name & score
     
 
@@ -152,7 +151,9 @@ function showScores() {
             score: totalTime
         }
         console.log(userData);
-        storeData(userData);
+        
+        localStorage.setItem("storedScores", JSON.stringify(userData));
+        displayScores();
         
     });
 };
@@ -162,23 +163,17 @@ function showScores() {
 const submitScore = $("#submit-score");
 const highScoresList = $("#high-scores-list");
 
-
-//submit button event listener
-
-
-
-
-function storeData(userData) { 
-    $(scoreBox).hide();
-    $(highScores).show();
+// function storeData(userData) { 
+//     $(scoreBox).hide();
+//     $(highScores).show();
     
-    localStorage.setItem("storedUserScores", JSON.stringify(userData));
+//     localStorage.setItem("storedUserScores", JSON.stringify(userData));
     
-    //arrayScored.push(userScore);//pushes new score into stored array of users/scores
+//     //arrayScored.push(userScore);//pushes new score into stored array of users/scores
     
    
-};
-displayScores();
+// };
+// displayScores();
 
     
 
@@ -189,10 +184,15 @@ let goBack = $("#go-back"); //button for going back to home page
 let clearScores = $("#clear-scores"); //button for clear the list of high scores
 
 function displayScores() {
-    //take out of local storage
-    let storedScore = JSON.parse(localStorage.getItem("storedUserScores"));
-     
-    console.log(storedScore);
+    $(scoreBox).hide();
+    $(highScores).show();
+    //take out of local storage (parse is necessary bc it's in object form)
+    let displayedScore =  JSON.parse(localStorage.getItem("storedScores"));
+    console.log(displayedScore);
+    
+
+    $("#high-scores-list").append("<p>" + JSON.stringify(displayedScore) + "</p>");
+    console.log(displayedScore);
 
     // for (let i = 0; i < 4; i++) {
 
