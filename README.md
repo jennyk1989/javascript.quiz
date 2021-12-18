@@ -1,6 +1,6 @@
-##Description
+## Description
 
-##Link
+## Link
 https://jennyk1989.github.io/javascript.quiz/
 
-##Screenshot
+## Screenshot

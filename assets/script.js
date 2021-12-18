@@ -13,7 +13,11 @@ function homePage() {
     $(scoreBox).hide();
     $(highScores).hide();
 
-}
+    let lastQuizUser = JSON.parse(localStorage.getItem("storeScores"));
+    if (lastQuizUser !== null) {
+        userData = lastQuizUser;
+    };
+};
 
 
 //================ Quiz Event ================
@@ -134,7 +138,7 @@ function showScores() {
 
     $(finalScore).empty();
     $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
-
+ 
     //once user click's submit, store the user's name & score
     $("#submit-score").on("click", function() {
         //take user's name from input
@@ -144,8 +148,20 @@ function showScores() {
         }
         console.log(userData);
         
-        localStorage.setItem("storedScores", JSON.stringify(userData));
-        displayScores();
+        let displayedScore =  localStorage.getItem("storedScores");
+
+        if (displayedScore == null) {
+            localStorage.setItem("storedScores", JSON.stringify([userData]));
+            console.log(displayedScore);
+            displayScores();
+        } else {
+            storedScores = highScores;
+            console.log(typeof storedScores);
+            storedScores.push(userData);
+            localStorage.setItem("storedScores", JSON.stringify(storedScores));
+            displayScores();
+        };
+        console.log(userData);
         
     });
 };
@@ -157,8 +173,8 @@ const highScoresList = $("#high-scores-list");
 
 //================ Display High Scores ================
 //relevant variables
-let goBack = $("#go-back"); //button for going back to home page
-let clearScores = $("#clear-scores"); //button for clear the list of high scores
+const goBack = $("#go-back"); //button for going back to home page
+const clearScores = $("#clear-scores"); //button for clear the list of high scores
 
 function displayScores() {
     $(quizRules).hide();
@@ -167,15 +183,13 @@ function displayScores() {
     //take out of local storage (parse is necessary bc it's in object form)
     let displayedScore =  JSON.parse(localStorage.getItem("storedScores"));
     console.log(displayedScore);
-    console.log(displayedScore.name);
-   
-    $("#high-scores-list").append("<p>" + "Name: " + displayedScore.name + " Score: " + displayedScore.score + "</p>");
+    let iSc; 
+    for(iSc = 1; iSc < displayedScore.length; iSc++ ) {
+        $("#high-scores-list").append("<p>" + "Name: " + displayedScore[iSc].name + " Score: " + displayedScore[iSc].score + "</p>");
 
-    // for(let iScore=0; iScore < displayedScore.length; iScore++) {
-        
-    //     $("#high-scores-list").append("<p>" + html(displayedScore[iScore].name) + html(displayedScore[iScore].score) + "</p>");
-    // }
-}
+    }
+
+};
 
 //================ Event Listeners ================
 $("#go-back").on("click", homePage);
@@ -191,4 +205,5 @@ $(highScoreButton).on("click", displayScores);
 //clear scores button
 $(clearScores).on("click", function() {
     localStorage.clear();
+    $("#high-scores-list").empty();
 });
