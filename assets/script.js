@@ -9,8 +9,6 @@ homePage();
 //================ Home Page ================
 //quiz box & score box hidden
 function homePage() {
-    let storedScoresList = JSON.parse(localStorage.getItem("storedScores"));
-    console.log(storedScoresList);
     $(quizRules).show(); //quiz rules should show at home
     $(quizBox).hide();
     $(scoreBox).hide();
@@ -125,9 +123,7 @@ const finalScore = $("#final-score");
 
 //quiz box hiden & score box appears
 function showScores() {
-    let storedScoresList = JSON.parse(localStorage.getItem("storedScores"));
-    console.log(storedScoresList);
-
+    
     $(quizBox).hide();
     $(scoreBox).show();
 
@@ -143,10 +139,10 @@ function showScores() {
         }
         console.log(userData);
         
-        storedScoresList.push(userData);
-        console.log(storedScoresList);
+        displayedScoresArray.push(userData);
+        console.log(displayedScoresArray);
 
-        let displayedScoresString = JSON.stringify(storedScoresList);
+        let displayedScoresString = JSON.stringify(displayedScoresArray);
         console.log(displayedScoresString);
 
         localStorage.setItem("storedScores", displayedScoresString);
@@ -177,14 +173,11 @@ function displayScores() {
     };
 
     let scoresStorage = JSON.parse(savedScores);
-    console.log(scoresStorage);
     
-    scoresStorage.forEach(object => {
-        $("#high-scores-list").append("<p>" + "Name: " + JSON.stringify(object.name) + " Score: " + object.score + "</p>");
+    for (; indexS < scoresStorage.length; indexS++ ) {
+        $("#high-scores-list").append("<p>" + "Name: " + JSON.stringify(scoresStorage[indexS].name) + " Score: " + scoresStorage[indexS].score + "</p>");
 
-    });
-
-    
+    }
 
 };
 
