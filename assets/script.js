@@ -5,6 +5,7 @@ const scoreBox = $("#score-box");
 const startQuiz = $("#start-quiz");
 const highScores = $("#high-scores-box");
 
+homePage();
 //================ Home Page ================
 //quiz box & score box hidden
 function homePage() {
@@ -14,6 +15,8 @@ function homePage() {
     $(highScores).hide();
 };
 
+//click start button --> quiz event happens
+$(startQuiz).on("click", quizEvent);
 
 //================ Quiz Event ================
 //relevant variables defined
@@ -23,44 +26,46 @@ const btnTwo = $("#button-two");
 const btnThree = $("#button-three");
 const btnFour = $("#button-four");
 const questChoices = $("question-choices");
-let timerInterval = 0;
-let totalTime = 30;
-let i = 0;
+let totalTime = 30; //start quiz with 30 seconds
+let iQuestion = 0; //index for questions
 
 function quizEvent() {
+    iQuestion = 0; //questions start off a first question in the questionsArray
     //quiz box shows & quiz rules & score box still hidden
     $(quizBox).show();
     $(quizRules).hide();
     $(questionTitle).empty();
-    $(userInput).text("");
+    // $(userInput).text("");
     //timer
-    timerInterval = setInterval(function() {
-        totalTime--;
-        $("#countdown-timer").text(totalTime + "sec");
+    let countdownTimer = setInterval(function() {
+        totalTime--; //subtract time by one sec (or 1000 milliseconds)
+        $("#countdown-timer").text(totalTime + "sec"); //update the timer with the current time left
         
-
-        if(totalTime <= 0) {
+        
+        if(totalTime <= 0 || iQuestion === 5) {
+            clearInterval(countdownTimer);
+    
             showScores();
+            
         }
     }, 1000);
-    showQuestion();
+    showQuestion(iQuestion);
+    
 };
 
-function showQuestion() {
+function showQuestion(iQuestion) {
     $(questionTitle).text("");
     $(btnOne).text("");
     $(btnTwo).text("");
     $(btnThree).text("");
     $(btnFour).text("");
 
-    $(questionTitle).text(JSON.stringify(questionsArray[i].quest));
+    $(questionTitle).text(JSON.stringify(questionsArray[iQuestion].quest));
     //append answer choice to the coorisponding buttons
-    $(btnOne).append(JSON.stringify(questionsArray[i].choice[0])); //appends answer choices to buttons from an object as a string
-    $(btnTwo).append(JSON.stringify(questionsArray[i].choice[1])); 
-    $(btnThree).append(JSON.stringify(questionsArray[i].choice[2])); 
-    $(btnFour).append(JSON.stringify(questionsArray[i].choice[3])); 
-
-   
+    $(btnOne).append(JSON.stringify(questionsArray[iQuestion].choice[0])); //appends answer choices to buttons from an object as a string
+    $(btnTwo).append(JSON.stringify(questionsArray[iQuestion].choice[1])); 
+    $(btnThree).append(JSON.stringify(questionsArray[iQuestion].choice[2])); 
+    $(btnFour).append(JSON.stringify(questionsArray[iQuestion].choice[3])); 
 };
 
 
@@ -100,28 +105,19 @@ const questionsArray = [
     }
 ];
 
-//click answer event listener
-$(".answer-button").on("click", function() {  
-    if (i > 4) {
-        clearInterval(timerInterval);
-        showScores();
-    } else {
-        showQuestion();
-        i++; 
-    };
-   
-});
+//event listener is in the HTML and executes checkAnswerChoice on "click"
 //check if user answer choice is correct
-function checkAnswer(answer) {
-    if (questionsArray[i].ans === answer) {
+function checkAnswerChoice(answer) {
+    if (questionsArray[iQuestion].ans === answer) {
         //add to score/time
         totalTime += 10;
-    } else if (questionsArray[i].ans !== answer) {
+    } else {
         //reduce score/time
         totalTime -= 5; 
-    }
-
-}
+    };
+    iQuestion++
+    showQuestion(iQuestion); //go back to show next question
+};
 
 //================ End of Quiz ================
 //relevant variables
@@ -206,9 +202,7 @@ function displayScores() {
 //================ Event Listeners ================
 $("#go-back").on("click", homePage);
 
-//click start button --> quiz event happens
-$(startQuiz).on("click", quizEvent);
-homePage();
+
 
 $("#submit-score").on("click", displayScores);
 
