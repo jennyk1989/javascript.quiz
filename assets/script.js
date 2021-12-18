@@ -4,7 +4,7 @@ const quizBox = $("#quiz-box");
 const scoreBox = $("#score-box");
 const startQuiz = $("#start-quiz");
 const highScores = $("#high-scores-box");
-
+let displayedScoresArray = [] || JSON.parse(localStorage.getItem("storedScores")); //OR operator prevents stored Array from emptying if there's a value stored
 homePage();
 //================ Home Page ================
 //quiz box & score box hidden
@@ -44,16 +44,14 @@ function quizEvent() {
         
         if(totalTime <= 0 || iQuestion === 5) {
             clearInterval(countdownTimer);
-    
             showScores();
-            
         }
     }, 1000);
     showQuestion(iQuestion);
     
 };
 
-function showQuestion(iQuestion) {
+function showQuestion() {
     $(questionTitle).text("");
     $(btnOne).text("");
     $(btnTwo).text("");
@@ -122,7 +120,6 @@ function checkAnswerChoice(answer) {
 //================ End of Quiz ================
 //relevant variables
 const finalScore = $("#final-score");
-const userInput = $("#userInput");
 
 //quiz box hiden & score box appears
 function showScores() {
@@ -132,41 +129,26 @@ function showScores() {
 
     $(finalScore).empty();
     $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
+
     
-    let displayedScore =  localStorage.getItem("storedScores");
-    console.log(displayedScore);
-    storeScores();
+    $("#submit-score").on("click", function() {
+        //take user's name from input
+        let userData = {
+            name: $("#userInput")[0].value,
+            score: totalTime
+        }
+        console.log(userData);
+        
+        displayedScoresArray.push(userData);
+        console.log(displayedScoresArray);
+
+        let displayedScoresString = JSON.stringify(displayedScoresArray);
+        console.log(displayedScoresString);
+
+        localStorage.setItem("storedScores", displayedScoresString);
+        displayScores();
+    });
 };
-function storeScores() {
-    //once user click's submit, store the user's name & score
-    // if (userInput.value === "") { return };
-    let displayedScore =  localStorage.getItem("storedScores");
-    console.log(displayedScore);
-    let displayedScoresArray;
-
-    if (displayedScore == null) {
-        displayedScoresArray = [];
-    } else {
-        displayedScoresArray = JSON.parse(displayedScore);
-    };
-    //take user's name from input
-    userName = userInput.value;
-    console.log(userName);
-
-    let userData = {
-        name: userName,
-        score: totalTime
-    };
-    console.log(userData);
-    
-    displayedScoresArray.push(userData);
-
-    let displayedScoresString = JSON.stringify(displayedScoresArray);
-    localStorage.setItem("storedScores", displayedScoresString);
-    
-    displayScores();
-};
-
 
 //================ Store Scores ================
 const submitScore = $("#submit-score");
@@ -200,12 +182,10 @@ function displayScores() {
 };
 
 //================ Event Listeners ================
-$("#go-back").on("click", homePage);
-
-
-
-$("#submit-score").on("click", displayScores);
-
+$("#go-back").on("click", function(event) {
+    event.preventDefault();
+    window.location.reload(); //tells page to reload so quiz is reset
+})
 
 const highScoreButton = $("#highscore-button");
 //view high Scores button
