@@ -12,11 +12,6 @@ function homePage() {
     $(quizBox).hide();
     $(scoreBox).hide();
     $(highScores).hide();
-
-    let lastQuizUser = JSON.parse(localStorage.getItem("storeScores"));
-    if (lastQuizUser !== null) {
-        userData = lastQuizUser;
-    };
 };
 
 
@@ -37,17 +32,18 @@ function quizEvent() {
     $(quizBox).show();
     $(quizRules).hide();
     $(questionTitle).empty();
-    
+    $(userInput).text("");
     //timer
     timerInterval = setInterval(function() {
         totalTime--;
         $("#countdown-timer").text(totalTime + "sec");
-        showQuestion();
+        
 
-        if(totalTime === 0) {
+        if(totalTime <= 0) {
             showScores();
         }
     }, 1000);
+    showQuestion();
 };
 
 function showQuestion() {
@@ -130,40 +126,49 @@ function checkAnswer(answer) {
 //================ End of Quiz ================
 //relevant variables
 const finalScore = $("#final-score");
+const userInput = $("#userInput");
 
 //quiz box hiden & score box appears
 function showScores() {
+    
     $(quizBox).hide();
     $(scoreBox).show();
 
     $(finalScore).empty();
     $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
- 
+    
+    let displayedScore =  localStorage.getItem("storedScores");
+    console.log(displayedScore);
+    storeScores();
+};
+function storeScores() {
     //once user click's submit, store the user's name & score
-    $("#submit-score").on("click", function() {
-        //take user's name from input
-        let userData = {
-            name: $("#userInput")[0].value,
-            score: totalTime
-        }
-        console.log(userData);
-        
-        let displayedScore =  localStorage.getItem("storedScores");
+    // if (userInput.value === "") { return };
+    let displayedScore =  localStorage.getItem("storedScores");
+    console.log(displayedScore);
+    let displayedScoresArray;
 
-        if (displayedScore == null) {
-            localStorage.setItem("storedScores", JSON.stringify([userData]));
-            console.log(displayedScore);
-            displayScores();
-        } else {
-            storedScores = highScores;
-            console.log(typeof storedScores);
-            storedScores.push(userData);
-            localStorage.setItem("storedScores", JSON.stringify(storedScores));
-            displayScores();
-        };
-        console.log(userData);
-        
-    });
+    if (displayedScore == null) {
+        displayedScoresArray = [];
+    } else {
+        displayedScoresArray = JSON.parse(displayedScore);
+    };
+    //take user's name from input
+    userName = userInput.value;
+    console.log(userName);
+
+    let userData = {
+        name: userName,
+        score: totalTime
+    };
+    console.log(userData);
+    
+    displayedScoresArray.push(userData);
+
+    let displayedScoresString = JSON.stringify(displayedScoresArray);
+    localStorage.setItem("storedScores", displayedScoresString);
+    
+    displayScores();
 };
 
 
@@ -175,17 +180,24 @@ const highScoresList = $("#high-scores-list");
 //relevant variables
 const goBack = $("#go-back"); //button for going back to home page
 const clearScores = $("#clear-scores"); //button for clear the list of high scores
+let indexS = 0;
 
 function displayScores() {
     $(quizRules).hide();
     $(scoreBox).hide();
     $(highScores).show();
     //take out of local storage (parse is necessary bc it's in object form)
-    let displayedScore =  JSON.parse(localStorage.getItem("storedScores"));
-    console.log(displayedScore);
-    let iSc; 
-    for(iSc = 1; iSc < displayedScore.length; iSc++ ) {
-        $("#high-scores-list").append("<p>" + "Name: " + displayedScore[iSc].name + " Score: " + displayedScore[iSc].score + "</p>");
+    let savedScores =  localStorage.getItem("storedScores");
+    console.log(savedScores);
+    
+    if (savedScores === null) {
+        return;
+    };
+
+    let scoresStorage = JSON.parse(savedScores);
+    
+    for (; indexS < scoresStorage.length; indexS++ ) {
+        $("#high-scores-list").append("<p>" + "Name: " + JSON.stringify(scoresStorage[indexS].name) + " Score: " + scoresStorage[indexS].score + "</p>");
 
     }
 
@@ -197,6 +209,9 @@ $("#go-back").on("click", homePage);
 //click start button --> quiz event happens
 $(startQuiz).on("click", quizEvent);
 homePage();
+
+$("#submit-score").on("click", displayScores);
+
 
 const highScoreButton = $("#highscore-button");
 //view high Scores button
