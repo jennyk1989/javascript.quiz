@@ -80,7 +80,7 @@ const questionsArray = [
     },
     {
         quest: "What is an array's values encompassed in?",
-        choice: [".value.", "<value>", "$value$", "[value]"],
+        choice: [".value. (periods)", "!!value!! (exclamations)", "$value$ (dollar signs)", "[value] (brackets)"],
         ans: "4"
     },
     {
