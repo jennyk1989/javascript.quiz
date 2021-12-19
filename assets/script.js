@@ -36,12 +36,10 @@ function quizEvent() {
     $(quizBox).show();
     $(quizRules).hide();
     $(questionTitle).empty();
-    // $(userInput).text("");
     //timer
     let countdownTimer = setInterval(function() {
         totalTime--; //subtract time by one sec (or 1000 milliseconds)
         $("#countdown-timer").text(totalTime + "sec"); //update the timer with the current time left
-        
         
         if(iQuestion >= 5 || totalTime <= 0) {
             clearInterval(countdownTimer);
@@ -49,7 +47,6 @@ function quizEvent() {
         }
     }, 1000);
     showQuestion(iQuestion);
-    
 };
 
 function showQuestion() {
@@ -66,8 +63,6 @@ function showQuestion() {
     $(btnThree).append(JSON.stringify(questionsArray[iQuestion].choice[2])); 
     $(btnFour).append(JSON.stringify(questionsArray[iQuestion].choice[3])); 
 };
-
-
 
 //questions
 //object/array format so easier to access 
@@ -168,6 +163,7 @@ const clearScores = $("#clear-scores"); //button for clear the list of high scor
 function displayScores() {
     $(quizRules).hide();
     $(scoreBox).hide();
+    $(".navbar-item").hide();
     $(highScores).show();
     //get user data out of local storage (returns as a string so use JSON.parse to get it back into object form)
     let savedScores =  JSON.parse(localStorage.getItem("storedScores"));
@@ -181,11 +177,7 @@ function displayScores() {
         let storageName = savedScores[indexS].name; //indexS will refer to each name & score that's present 
         let storageScore = savedScores[indexS].score; 
         $(highScoresList).append("<p>" + "NAME: " + storageName + "&nbsp&nbsp&nbsp&nbsp  SCORE: " + storageScore + "</p>");
-        //.attr("class", "is-justify-content-space-around");  
-        //$("#high-scores-list").append("<p>" + "Name: " + JSON.stringify(scoresStorage[indexS].name) + " Score: " + scoresStorage[indexS].score + "</p>");
-
     }
-
     localStorage.setItem("storedScores", JSON.stringify(savedScores)); //put it back in local storage after append for later use
 
 };
