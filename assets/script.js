@@ -43,7 +43,7 @@ function quizEvent() {
         $("#countdown-timer").text(totalTime + "sec"); //update the timer with the current time left
         
         
-        if(totalTime <= 0 || iQuestion === 5) {
+        if(iQuestion >= 5 || totalTime <= 0) {
             clearInterval(countdownTimer);
             showScores();
         }
@@ -101,6 +101,11 @@ const questionsArray = [
         quest: "What does JS stand for?",
         choice: ["JavaScreen", "JavaStyle", "JavaShow", "JavaScript"],
         ans: "4"
+    },
+    {
+        quest: "GOOD JOB!!!!!",
+        choice: ["good job!!!!", "good job!!!", "good job!!", "good job!"],
+        ans: "4c"
     }
 ];
 
@@ -138,15 +143,15 @@ function showScores() {
             score: totalTime
         }
         console.log(userData);
-        
-        displayedScoresArray.push(userData); //pushes new userData into the array of past userData
-        console.log(displayedScoresArray);
-        //cannot store data in the array form so first have to covert it into string form and then store
-        let displayedScoresString = JSON.stringify(displayedScoresArray);
-        console.log(displayedScoresString);
-
-        localStorage.setItem("storedScores", JSON.stringify(displayedScoresArray));
-        displayScores();
+        if (displayedScoresArray === null) {
+            displayedScoresArray = [userData]; 
+            localStorage.setItem("storedScores", JSON.stringify(displayedScoresArray));
+            displayScores();
+        } else {
+            displayedScoresArray.push(userData); //pushes new userData into the array of past userData
+            localStorage.setItem("storedScores", JSON.stringify(displayedScoresArray));
+            displayScores();
+        }
     });
 };
 
