@@ -186,8 +186,7 @@ function displayScores() {
 };
 
 //================ Event Listeners ================
-$("#go-back").on("click", function(event) {
-    event.preventDefault();
+$("#go-back").on("click", function() {
     window.location.reload(); //tells page to reload so quiz is reset
 })
 
