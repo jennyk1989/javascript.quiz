@@ -10,6 +10,7 @@ homePage();
 //quiz box & score box hidden
 function homePage() {
     $(quizRules).show(); //quiz rules should show at home
+    $(".navbar-item").show();
     $(quizBox).hide();
     $(scoreBox).hide();
     $(highScores).hide();
@@ -72,13 +73,13 @@ function showQuestion() {
 //object/array format so easier to access 
 const questionsArray = [
     {
-        quest: "What is not an example of a logical operator?",
+        quest: "What is NOT an example of a logical operator?",
         choice: ["||", "&&", "!", "***"],
         ans: "4"
     },
     {
-        quest: "What is an array's values encompassed in?",
-        choice: [".value. (periods)", "!!value!! (exclamations)", "$value$ (dollar signs)", "[value] (brackets)"],
+        quest: "What is used to encompass an array's values?",
+        choice: ["periods", "exclamations", "dollar signs", "brackets"],
         ans: "4"
     },
     {
@@ -123,10 +124,8 @@ const finalScore = $("#final-score");
 
 //quiz box hiden & score box appears
 function showScores() {
-    
     $(quizBox).hide();
     $(scoreBox).show();
-
     $(finalScore).empty();
     $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
 
@@ -176,7 +175,7 @@ function displayScores() {
     for (let indexS = 0; indexS < savedScores.length; indexS++ ) {
         let storageName = savedScores[indexS].name; //indexS will refer to each name & score that's present 
         let storageScore = savedScores[indexS].score; 
-        $(highScoresList).append("<p>" + "User Name: " + storageName + "    User Score: " + storageScore + "</p>");
+        $(highScoresList).append("<p>" + "NAME: " + storageName + "&nbsp&nbsp&nbsp&nbsp  SCORE: " + storageScore + "</p>");
         //.attr("class", "is-justify-content-space-around");  
         //$("#high-scores-list").append("<p>" + "Name: " + JSON.stringify(scoresStorage[indexS].name) + " Score: " + scoresStorage[indexS].score + "</p>");
 
@@ -188,7 +187,6 @@ function displayScores() {
 
 //================ Event Listeners ================
 $("#go-back").on("click", function(event) {
-    
     event.preventDefault();
     window.location.reload(); //tells page to reload so quiz is reset
 })
@@ -200,5 +198,5 @@ $(highScoreButton).on("click", displayScores);
 //clear scores button
 $(clearScores).on("click", function() {
     localStorage.removeItem("storedScores");
-   //$("#high-scores-list").empty();
+    $("#high-scores-list").empty();
 });
