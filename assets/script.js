@@ -41,7 +41,7 @@ function quizEvent() {
         totalTime--; //subtract time by one sec (or 1000 milliseconds)
         $("#countdown-timer").text(totalTime + "sec"); //update the timer with the current time left
         
-        if(iQuestion >= 5 || totalTime <= 0) {
+        if(iQuestion >= 6 || totalTime <= 0) {
             clearInterval(countdownTimer);
             showScores();
         }
