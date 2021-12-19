@@ -4,7 +4,7 @@ const quizBox = $("#quiz-box");
 const scoreBox = $("#score-box");
 const startQuiz = $("#start-quiz");
 const highScores = $("#high-scores-box");
-let displayedScoresArray = [] || JSON.parse(localStorage.getItem("storedScores")); //OR operator prevents stored Array from emptying if there's a value stored
+
 homePage();
 //================ Home Page ================
 //quiz box & score box hidden
@@ -130,7 +130,8 @@ function showScores() {
     $(finalScore).empty();
     $(finalScore).text("Final Score: " + totalTime); //time left at end of quiz equals the score
 
-    
+    let displayedScoresArray = JSON.parse(localStorage.getItem("storedScores")) //get previous user name and scores out of storage so new data can be added to it
+
     $("#submit-score").on("click", function() {
         //take user's name from input
         let userData = {
@@ -139,13 +140,13 @@ function showScores() {
         }
         console.log(userData);
         
-        displayedScoresArray.push(userData);
+        displayedScoresArray.push(userData); //pushes new userData into the array of past userData
         console.log(displayedScoresArray);
-
+        //cannot store data in the array form so first have to covert it into string form and then store
         let displayedScoresString = JSON.stringify(displayedScoresArray);
         console.log(displayedScoresString);
 
-        localStorage.setItem("storedScores", displayedScoresString);
+        localStorage.setItem("storedScores", JSON.stringify(displayedScoresArray));
         displayScores();
     });
 };
@@ -158,31 +159,36 @@ const highScoresList = $("#high-scores-list");
 //relevant variables
 const goBack = $("#go-back"); //button for going back to home page
 const clearScores = $("#clear-scores"); //button for clear the list of high scores
-let indexS = 0;
+
 
 function displayScores() {
     $(quizRules).hide();
     $(scoreBox).hide();
     $(highScores).show();
-    //take out of local storage (parse is necessary bc it's in object form)
-    let savedScores =  localStorage.getItem("storedScores");
+    //get user data out of local storage (returns as a string so use JSON.parse to get it back into object form)
+    let savedScores =  JSON.parse(localStorage.getItem("storedScores"));
     console.log(savedScores);
     
     if (savedScores === null) {
         return;
     };
-
-    let scoresStorage = JSON.parse(savedScores);
-    
-    for (; indexS < scoresStorage.length; indexS++ ) {
-        $("#high-scores-list").append("<p>" + "Name: " + JSON.stringify(scoresStorage[indexS].name) + " Score: " + scoresStorage[indexS].score + "</p>");
+    //for each key/value pair in savedScores, append it to the DOM 
+    for (let indexS = 0; indexS < savedScores.length; indexS++ ) {
+        let storageName = savedScores[indexS].name; //indexS will refer to each name & score that's present 
+        let storageScore = savedScores[indexS].score; 
+        $(highScoresList).append("<p>" + "User Name: " + storageName + "    User Score: " + storageScore + "</p>");
+        //.attr("class", "is-justify-content-space-around");  
+        //$("#high-scores-list").append("<p>" + "Name: " + JSON.stringify(scoresStorage[indexS].name) + " Score: " + scoresStorage[indexS].score + "</p>");
 
     }
+
+    localStorage.setItem("storedScores", JSON.stringify(savedScores)); //put it back in local storage after append for later use
 
 };
 
 //================ Event Listeners ================
 $("#go-back").on("click", function(event) {
+    
     event.preventDefault();
     window.location.reload(); //tells page to reload so quiz is reset
 })
@@ -193,6 +199,6 @@ $(highScoreButton).on("click", displayScores);
 
 //clear scores button
 $(clearScores).on("click", function() {
-    localStorage.clear();
-    $("#high-scores-list").empty();
+    localStorage.removeItem("storedScores");
+   //$("#high-scores-list").empty();
 });
